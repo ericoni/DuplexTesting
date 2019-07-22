@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    //[ServiceContract(CallbackContract = typeof(ITestServiceCallback))]
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(ITestServiceCallback))]
+    //[ServiceContract]
     public interface ITestService
     {
         [OperationContract]

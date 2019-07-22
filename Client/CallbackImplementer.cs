@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    public class CallbackImplementer //: ITestServiceCallback
+    public class CallbackImplementer : ITestServiceCallback
     {
         ITestService proxy = null;
         int counter = 0;

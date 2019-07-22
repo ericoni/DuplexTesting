@@ -13,15 +13,24 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            //CallbackImplementer callback = new CallbackImplementer();
+            // ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(
+            //new NetTcpBinding(),
+            //new EndpointAddress("net.tcp://localhost:10012/ITestService"));
+            // ITestService kanal = factory.CreateChannel();
 
-            ChannelFactory<ITestService> factory = new ChannelFactory<ITestService>(
-           new NetTcpBinding(),
-           new EndpointAddress("net.tcp://localhost:10012/ITestService"));
-            ITestService kanal = factory.CreateChannel();
+            // Thread.Sleep(3000);
+            // kanal.Register("");
 
-            Thread.Sleep(3000);
-            kanal.Register("");
+            ITestService proxy = null;
+            CallbackImplementer callback = new CallbackImplementer();
+
+            DuplexChannelFactory<ITestService> factory = new DuplexChannelFactory<ITestService>(
+              new InstanceContext(callback),
+              new NetTcpBinding(),
+              new EndpointAddress("net.tcp://localhost:10012/ITestService"));
+            proxy = factory.CreateChannel();
+
+            proxy.Register("");
 
             Console.WriteLine("Prosao");
             Console.Read();
