@@ -8,34 +8,42 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class Service : ITestService
-    {
-        private static Service instance;
+	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+	public class Service : ITestService
+	{
+		private static Service instance;
+		int counter = 0;
+		List<ITestServiceCallback> callbackList = new List<ITestServiceCallback>();
 
-        public static Service Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new Service();
-                return instance;
-            }
-        }
-        public void ReceiveCache(string userName, List<string> addressList)
-        {
-            throw new NotImplementedException();
-        }
+		public static Service Instance
+		{
+			get
+			{
+				if (instance == null)
+					instance = new Service();
+				return instance;
+			}
+		}
+		public void ReceiveCache(string userName, List<string> addressList)
+		{
+			throw new NotImplementedException();
+		}
 
-        public int Register(string userName)
-        {
-            string a = "rakija";
-            return 5;
-        }
+		public int Register(string userName)
+		{
+			counter++;
+			OperationContext context = OperationContext.Current;
+			ITestServiceCallback client = context.GetCallbackChannel<ITestServiceCallback>();
+			callbackList.Add(client);
+			
+			if(userName.Equals("a"))
+				client.NotifyUserOfCache();
+			return counter;
+		}
 
-        public int Unregister(string userName)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public int Unregister(string userName)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

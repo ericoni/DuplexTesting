@@ -7,22 +7,24 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            //ServiceService css = new ServiceService();
-            //css.Start();
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			//ServiceService css = new ServiceService();
+			//css.Start();
 
-            ServiceHost svc = new ServiceHost(typeof(Service));
-            svc.AddServiceEndpoint(typeof(Common.ITestService),
-            new NetTcpBinding(),
-            new Uri(("net.tcp://localhost:10012/ITestService")));
+			//ServiceHost svc = new ServiceHost(typeof(Service));
 
-            svc.Open();
+			ServiceHost svc = new ServiceHost(Service.Instance);
+			svc.AddServiceEndpoint(typeof(Common.ITestService),
+			new NetTcpBinding(),
+			new Uri(("net.tcp://localhost:10012/ITestService")));
 
-            Console.WriteLine("Started...");
-            Console.Read();
-        }
-    }
+			svc.Open();
+
+			Console.WriteLine("Started...");
+			Console.Read();
+		}
+	}
 }
