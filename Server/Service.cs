@@ -34,16 +34,26 @@ namespace Server
 			counter++;
 			OperationContext context = OperationContext.Current;
 			ITestServiceCallback client = context.GetCallbackChannel<ITestServiceCallback>();
-			callbackList.Add(client);
+
+			if(callbackList.Contains(client) == false)
+				callbackList.Add(client);
 			
-			if(userName.Equals("a"))
-				client.NotifyUserOfCache();
+			//if(userName.Equals("a"))//hardcoded reply to client
+			//	client.NotifyUserOfCache();
 			return counter;
 		}
 
 		public int Unregister(string userName)
 		{
 			throw new NotImplementedException();
+		}
+
+		public void NotifyClient()
+		{
+			foreach (var callback in callbackList)
+			{
+				callback.NotifyUserOfCache();
+			}
 		}
 	}
 }
